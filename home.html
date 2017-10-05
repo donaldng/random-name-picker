@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<!--[if IE 8]>               <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Eat What?</title>
+
+    <link rel="stylesheet" href="/css/normalize.css" />
+    <link rel="stylesheet" href="/css/foundation.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+
+    <script src="js/vendor/custom.modernizr.js"></script>
+    <script src="js/jquery-latest.min.js"></script>
+
+</head>
+<body onload="initiate();">
+
+<div class="row">
+    <h1 id="title">
+        <a href="home.html"><span id="title-txt">Eat what?</span></a>
+    </h1>       
+    <div id="menu">
+        <a href="home.html"><p class="managefood">> home</p></a>
+        <a href="foodlist.html"><p class="managefood">> food list</p></a>
+        <a href="about.html"><p class="managefood">> about</p></a>
+    </div>
+<div class="row">
+    <div class="large-12 columns">
+        <h3 id="headline"></h3>
+
+        <div id="memecontainer">
+            <img id="meme" src="img/meme/meme2.jpg" onclick="go();">
+        </div>
+
+        <div id="popdown">
+            <div id="foods" class="inbox"><textarea name="foodsbox" id="foodsbox"></textarea></div>
+        </div>
+
+        <div id="values"></div>
+        <div id="copyright">&copy; Coded by <strong>Donald Ng</strong> 2017</div>
+    </div>
+</div>
+
+  <script>
+  document.write('<script src=' +
+  ('__proto__' in {} ? 'js/vendor/zepto' : 'js/vendor/jquery') +
+  '.js><\/script>')
+  </script>
+  
+  <script src="js/foundation.min.js"></script>
+  <script>$(document).foundation();</script>
+  
+<script>
+var text;
+
+
+function initiate(){
+    // re-enable go button
+    var foodsbreak = "";
+    if(gup('foods') != ""){
+        var foods = gup('foods');
+            foodsbreak = foods.replace(/101/g,'\n');
+            foodsbreak = foodsbreak.replace(/%20/g,' ');          
+        }
+    else{
+        var foods = getList();
+
+        for(var i in foods){
+            name = foods[i];
+            if (name == "" || typeof(name) == undefined){}else{
+                foodsbreak = foodsbreak + name + "\n";
+            }
+        }
+    }
+    $("#foodsbox").val(foodsbreak);
+
+    if (authorized()){
+        $('#login').hide();
+    }
+    else{
+        $('#logout').hide();
+    }
+}
+
+function gup(para)
+{
+  para = para.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+  var regexS = "[\\?&]"+para+"=([^&#]*)";
+  var regex = new RegExp( regexS );
+  var results = regex.exec( window.location.href );
+  if( results == null )
+    return "";
+  else
+    return results[1];
+}
+
+function randOrd(){
+    return (Math.round(Math.random())-100); 
+}
+
+// does the actual animation
+function go(){
+    $("#memecontainer").hide();
+    $(".managefood").hide();
+    $("#copyright").hide();
+    $('body').css({"overflow-y": "hidden"});
+    $('#title').hide();
+    $('#go').attr('disabled','disabled');
+    $('#addfood').attr('disabled','disabled');
+    $('#save').attr('disabled','disabled');
+    $('#headline').slideUp();
+    $('#foodsbox').slideDown();
+
+    var count = 1;
+    count = 1;
+    $("div").remove("#result1");
+    foods = $("#foodsbox").val();
+    if(document.all) { // IE
+    foods=foods.split("\n");
+    }
+    else { //Mozilla
+    foods=foods.split("\n");
+    }
+    $("#values").show();
+    $(".name").show();
+    $("#popdown").hide();
+    $("div").remove(".name");
+    $("div").remove(".extra");
+    $("#playback").html("");
+    newtop = foods.length * 200 * -1;
+    //$('#values').css({top: -300});
+    $('#values').css({top: + newtop});    
+    foods.sort( randOrd );
+    var fruits = new Array ( "apple", "pear", "orange", "banana" );
+    //console.log(fruits);
+    //console.log(foods);
+    //alert(newtop);
+    for(var i in foods){
+    if (foods[i] == "" || typeof(foods[i]) == undefined){
+    count = count-1;
+    } else {
+    name = foods[i];
+    //console.log(name);
+    $('#values').append('<div id=result'+count+' class=name>'+name+'</div>');
+    }
+    count = count+1;
+    }
+    for(var i in foods){
+    if (foods[i] == "" || typeof(foods[i]) == undefined){}else{
+    name = foods[i];
+    $('#values').append('<div class=name>'+name+'</div>');
+    }
+    count = count+1;
+    }
+    for(var i in foods){
+    if (foods[i] == "" || typeof(foods[i]) == undefined){}else{
+    name = foods[i];
+    $('#values').append('<div class=name>'+name+'</div>');
+    }
+    count = count+1;
+    }
+    text = $('#result1').text()
+    $('#values').animate({top: '+176'},5000);
+
+    // make it stand out
+    setTimeout("standout(text)",5000);
+}
+
+function standout(text){
+    $(".managefood").show();
+    $('#title').show();
+    $('#result1').removeClass('name');
+    $('.name').animate({opacity: .25});
+    $('#result1').animate({height: '+=60px'});
+    $('#result1').append('<div class="extra"><a class="small alert button" href="#" onClick="removefood();">no ty :)</a></div>');
+    $('#go').removeAttr('disabled','disabled');
+    $('#addfood').removeAttr('disabled','disabled');
+    $('#save').removeAttr('disabled','disabled');
+    $('#headline').text('Today we eat...');
+    $('#headline').slideDown();
+}
+
+function removefood(){
+    // Removing victim from array and UI
+    // foods = foods.filter(function(){ return true});
+    // Rewriting foodsbox contents
+    var nameupdated = "";
+    for(var i in foods){
+        name = foods[i];
+        if (name == "" || name == text || typeof(name) == undefined){}else{
+            nameupdated = nameupdated + "\n" + name;
+        }
+        }
+        $('#foodsbox').val("");
+        $('#foodsbox').val(nameupdated);
+        $('#result1').html("rofl");
+        $('#result1').fadeOut(1000, function(){
+            $("div").remove("#result1");
+        });
+    $("div").remove(".name");
+    $("div").remove(".extra");
+    $('#headline').text('k how bout we try again?');
+    $('#meme').attr('src','/img/meme/meme3.png');
+    setTimeout("showMeme()",1000);
+}
+
+function showMeme(){
+    $('#memecontainer').show();
+}
+
+function login(name){
+    localStorage.setItem("username", name);
+    window.location = '/home.html';
+}
+
+function logout(){
+    localStorage.removeItem("username");
+    window.location = '/home.html';
+}
+
+function authorized(){
+    var auth = typeof localStorage.getItem('username');
+    return auth!="object";
+}
+
+function getList(){
+    if (!authorized()){
+        var foods = new Array('Fast food',
+            'Slow food',
+            'Expensive food',
+            'Cheap food',
+            'Thai food',
+            'Chinese food',
+            'Malay food',
+            'Vietnam food',
+            'Mamak',
+            'Japanese food',
+            'Korean food',
+            'Indian food',
+            'Cafe',
+            'Hawker stall',
+            'Fasting'
+        );
+    }
+    else{
+        var foods = new Array('Fast food',
+            'Good food'
+        );
+    }
+
+
+    return foods;
+}
+</script>
+
+</body>
+</html>

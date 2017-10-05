@@ -1,0 +1,80 @@
+#values { position:relative;font-size:400%;text-align:center;margin: 0 auto;z-index:0; }
+.name { overflow:hidden;display:block; }
+#foods { display:none;padding:5px; }
+#foodsbox { min-height:400px;font-size:32px;color:#333;resize:none;border:1px solid #F39C12; }
+.extra { font-size:16px;margin-top:20px; }
+#result1 { background:#000;color:#fbe34b;padding:20px;z-index:10;margin-top:-150px; }
+body { background:#94c6f7; }
+#memecontainer { font-size:40px;text-align:center;padding:30px; }
+
+#headline{text-align:center;margin-top:30px;}
+
+.block{
+    display: inline;
+}
+
+#title{
+    width:250px;
+    margin-top:30px;
+    background:black;
+    color:white;
+    float:right;
+    text-align:center;
+}
+
+#title a{
+    color: white;
+}
+
+#meme {
+    cursor: pointer;
+}
+
+#copyright { 
+    font-size:11px;
+    font-family:Tahoma;
+    position:fixed;
+    bottom: 0; 
+    width: 200px;
+    color: white;
+    background: black;
+    text-align:center;
+    float: left;
+    padding:5px;
+}
+
+.managefood{
+    font-weight: bold;
+    text-align: center;
+    color: black;
+    float: left;
+    margin-top:50px;
+    padding-right: 20px;
+}
+
+.managefood a{
+    color: white;
+}
+
+.inline2{
+    display: inline !important;
+}
+
+.right{
+    text-align:right;
+}
+
+.text{
+    height: 44px !important;
+    font-size: 20px !important;
+}
+
+.center{text-align: center;}
+
+#login, #logout{
+    float:right;
+}
+
+.margin-top{
+    margin-top:30px;
+}
